@@ -1,7 +1,8 @@
-import { MAX_WORKFLOW_RUNS } from './../constants';
+import { MAX_WORKFLOW_RUNS_TO_DISPLAY, MAX_WORKFLOW_RUNS_TO_STORE } from './../constants';
 import { Octokit } from "@octokit/rest"
 import { useStorage } from "@plasmohq/storage/hook"
 import { useOctkit } from "./useOctokit"
+import sortBy from 'lodash.sortby';
 
 export type WorkflowRunList = Awaited<ReturnType<Octokit["actions"]["listWorkflowRunsForRepo"]>>["data"]["workflow_runs"]
 
@@ -32,7 +33,7 @@ export function useGithubWorkflowRuns(selectedRepos: string[]) {
                     const [owner, repo] = selectedRepo.split("/")
                     return octokit.actions.listWorkflowRunsForRepo({ owner, repo })
                         .then(result => {
-                            setGithubWorkflowRuns(prev => [...result.data.workflow_runs, ...prev].slice(0, MAX_WORKFLOW_RUNS))
+                            setGithubWorkflowRuns(prev => [...result.data.workflow_runs, ...prev].slice(0, MAX_WORKFLOW_RUNS_TO_STORE))
                         })
                 })
             )
@@ -43,7 +44,7 @@ export function useGithubWorkflowRuns(selectedRepos: string[]) {
     }, [octokit, isOctokitLoading, selectedRepos])
     
     return {
-        githubWorkflowRuns,
+        githubWorkflowRuns: sortBy(githubWorkflowRuns, ["run_started_at"]).toReversed().slice(0, MAX_WORKFLOW_RUNS_TO_DISPLAY),
         isWorkflowRunListLoading: isOctokitLoading || isWorkflowRunListLoading,
         githubWorkflowError
     }

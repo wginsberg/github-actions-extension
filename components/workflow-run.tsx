@@ -85,12 +85,12 @@ StatusIcon.Skeleton = function () {
     )
 }
 
-WorkflowRun.Skeleton = function ({ w }: { w: StyleProp<React.CSSProperties['width']> }) {
+WorkflowRun.Skeleton = function ({ w1, w2 }: { w1: StyleProp<React.CSSProperties['width']>, w2: StyleProp<React.CSSProperties['width']> }) {
     return (
         <Paper shadow="md" withBorder display={"contents"}>
             <StatusIcon.Skeleton />
-            <span className="p-2"><Skeleton w={w}>&nbsp;</Skeleton></span>
-            <span className="p-2"><Skeleton w={w}>&nbsp;</Skeleton></span>
+            <span className="p-2"><Skeleton w={w1}>&nbsp;</Skeleton></span>
+            <span className="p-2"><Skeleton w={w2} className="ml-auto">&nbsp;</Skeleton></span>
         </Paper>
     )
 }
