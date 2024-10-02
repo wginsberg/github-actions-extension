@@ -9,30 +9,38 @@ export function useGithubWorkflowRuns(selectedRepos: string[]) {
     const { octokit, isOctokitLoading } = useOctkit()
     const [githubWorkflowRuns, setGithubWorkflowRuns] = useState<WorkflowRunList>([])
     const [isWorkflowRunListLoading, setIsWorkflowRunListLoading] = useState(false)
-    const [githubWorkflowError, setGithubWorkflowError] = useState()
+    const [githubWorkflowError, setGithubWorkflowError] = useState<string>()
 
     useEffect(() => {
         setGithubWorkflowRuns([])
         setGithubWorkflowError(undefined)
         setIsWorkflowRunListLoading(true)
 
-        if (!octokit || isOctokitLoading) {
+        if (isOctokitLoading) {
             return
         }
 
-        Promise.all(
-            selectedRepos.map((selectedRepo) =>  {
-                const [owner, repo] = selectedRepo.split("/")
-                return octokit.actions.listWorkflowRunsForRepo({ owner, repo })
-                    .then(result => {
-                        setGithubWorkflowRuns(prev => [...result.data.workflow_runs, ...prev].slice(0, MAX_WORKFLOW_RUNS))
-                    })
-                    .catch(error => {
-                        setGithubWorkflowError(error)
-                    })
-            })
-        ).then(() => setIsWorkflowRunListLoading(false))
-    }, [octokit, selectedRepos])
+        if (!octokit) {
+            setGithubWorkflowError("Could not load workflows")
+            setIsWorkflowRunListLoading(false)
+            return
+        }
+
+        Promise
+            .all(
+                selectedRepos.map((selectedRepo) =>  {
+                    const [owner, repo] = selectedRepo.split("/")
+                    return octokit.actions.listWorkflowRunsForRepo({ owner, repo })
+                        .then(result => {
+                            setGithubWorkflowRuns(prev => [...result.data.workflow_runs, ...prev].slice(0, MAX_WORKFLOW_RUNS))
+                        })
+                })
+            )
+            .then(res => console.log({res}))
+            .catch(error => setGithubWorkflowError(error))
+            .finally(() => setIsWorkflowRunListLoading(false))
+            
+    }, [octokit, isOctokitLoading, selectedRepos])
     
     return {
         githubWorkflowRuns,

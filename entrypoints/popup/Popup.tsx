@@ -11,20 +11,23 @@ import { useGithubWorkflowRuns } from "@/hooks/useGithubWorkflowRuns"
 import WorkflowRunFeed from '@/components/workflow-run-feed';
 
 export default function Popup() {
+  const { githubUser } = useGithubUser()
   const [selectedRepos, setSelectedRepos] = useStorage<string[]>(STORAGE.SELECTED_REPOS, [])
   const { githubWorkflowRuns, isWorkflowRunListLoading, githubWorkflowError } = useGithubWorkflowRuns(selectedRepos)
 
-  console.log({ isWorkflowRunListLoading })
+  const showSkeleton = selectedRepos.length > 0 && isWorkflowRunListLoading
 
   return (
     <div className='p-2'>
       <a href="options.html" target="_blank">Options</a>
       {
-        isWorkflowRunListLoading
+        showSkeleton
           ? <WorkflowRunFeed.Skeleton />
-          : selectedRepos.length
-            ? <WorkflowRunFeed workflowRunList={githubWorkflowRuns} />
-            : <Empty />
+          : githubUser
+            ? selectedRepos.length
+              ? <WorkflowRunFeed workflowRunList={githubWorkflowRuns} />
+              : <Empty />
+            : "not logged in"
       }
     </div>
   );
