@@ -1,3 +1,7 @@
 body {
   min-width: 480px;
 }
+
+#repoSelect:has([data-expanded="true"]) {
+  margin-bottom: 240px;
+}

@@ -27,7 +27,7 @@ export default function RepoMultiselect() {
         : ""
 
     return (
-        <div className="w-full">
+        <div className="w-full" id="repoSelect">
             <MultiSelect
                 label={label}
                 placeholder={placeholder}
