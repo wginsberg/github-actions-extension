@@ -1,1 +1,12 @@
+[X] Reload data every 5 seconds
+	[ ] test that it updates new runs, pending status, success/fail status
+[ ] Add some info/tutorial for generating access token
 [ ] Better skeletons
+
+[ ] logout should clear selected repos and not just token
+
+V2 RELEASE ONLY
+
+[ ] Github OAuth
+[ ] Animations (animate in/out)
+[ ] Add "Load more button" to see more workflow runs

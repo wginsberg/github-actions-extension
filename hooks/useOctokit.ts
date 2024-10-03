@@ -18,8 +18,6 @@ export function useOctkit() {
         setOctokit(new Octokit({ auth: personalAccessToken }))
     }, [personalAccessToken, isTokenLoading])
 
-    console.log({isTokenLoading})
-
     return {
         octokit,
         isOctokitLoading: isTokenLoading
