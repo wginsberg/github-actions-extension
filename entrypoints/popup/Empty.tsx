@@ -6,3 +6,11 @@ export default function Empty() {
         </div>
     )
 }
+
+Empty.NotLoggedIn = function () {
+    return (
+        <div>
+            <p>Please log in to your Github account on the <a href="options.html" target="_blank">options page</a>.</p>
+        </div>
+    )
+}
