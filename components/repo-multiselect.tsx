@@ -16,12 +16,21 @@ export default function RepoMultiselect() {
     const repoData = githubRepos
         .map(({ owner, name }) => `${owner.login}/${name}`)
 
+    const label = githubUser
+        ? `Select up to ${MAX_SELECTED_REPOS} repositories to watch`
+        : "Login to load your repositories"
+
+    const placeholder = githubUser
+        ? isRepoListLoading
+            ? "loading..."
+            : `${repoData.length} repositories`
+        : ""
+
     return (
-        <div>
-            <Title order={2}>Repositories</Title>
+        <div className="w-full">
             <MultiSelect
-                label={`Select up to ${MAX_SELECTED_REPOS} repositories to watch`}
-                placeholder={`Select up to ${MAX_SELECTED_REPOS} repositories`}
+                label={label}
+                placeholder={placeholder}
                 data={repoData}
                 maxValues={MAX_SELECTED_REPOS}
                 onChange={handleRepoSelectionChange}
@@ -29,6 +38,7 @@ export default function RepoMultiselect() {
                 clearable
                 searchable
                 disabled={!githubUser}
+                className="w-full"
             />
         </div>
     )

@@ -12,7 +12,7 @@ export default function Auth() {
             <Space h="sm" />
             <TextInput
                 label="Github personal access token"
-                defaultValue={personalAccessToken}
+                value={personalAccessToken || ""}
                 onChange={e => setPersonalAccessToken(e.target.value)}
                 error={githubUserError && "Bad token"}
                 minLength={1}
@@ -21,6 +21,7 @@ export default function Auth() {
                 className='mt-2'
                 onClick={() => setPersonalAccessToken("")}
                 disabled={!githubUser}
+                color="red"
             >
                 {
                     githubUser
