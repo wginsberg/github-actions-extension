@@ -1,12 +1,14 @@
+[x] Cleanup page titles, favicons, meta tags, manifest info
+[ ] Cleanup multiselect popover experience
+[ ] 15 minutes cleanup feed layout
 [X] Reload data every 5 seconds
 	[ ] test that it updates new runs, pending status, success/fail status
-[ ] Add some info/tutorial for generating access token
-[ ] Better skeletons
-
-[ ] logout should clear selected repos and not just token
+[x] Add some info/tutorial for generating access token
+[x] logout should clear selected repos and not just token
 
 V2 RELEASE ONLY
 
+[ ] Better skeletons
 [ ] Github OAuth
 [ ] Animations (animate in/out)
 [ ] Add "Load more button" to see more workflow runs

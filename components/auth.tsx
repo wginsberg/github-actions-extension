@@ -11,7 +11,7 @@ export default function Auth() {
 
     const logout = useCallback(() => {
         if (!githubUser) return
-        const confirmation = confirm(`Are you sure you want to logout as ${githubUser.login}`)
+        const confirmation = confirm(`Are you sure you want to logout as ${githubUser.login}?`)
         if (!confirmation) return
 
         setPersonalAccessToken("")
