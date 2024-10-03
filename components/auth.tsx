@@ -30,7 +30,7 @@ export default function Auth() {
                         <ul className='list-disc'>
                             <li>
                                 <Space h={4} />
-                                <Anchor target='_blank' rel='noreferer noopener' href="https://github.com/settings/tokens?type=beta">
+                                <Anchor size='sm' target='_blank' rel='noreferer noopener' href="https://github.com/settings/tokens?type=beta">
                                     Create a Github personal access token&nbsp;<IconExternalLink className='inline' size="1rem" />
                                 </Anchor>
                             </li>

@@ -38,7 +38,6 @@ export default function RepoMultiselect() {
                 clearable
                 searchable
                 disabled={!githubUser}
-                className="w-full"
             />
         </div>
     )

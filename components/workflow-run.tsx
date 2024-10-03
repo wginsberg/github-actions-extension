@@ -26,49 +26,52 @@ type Status = "completed"
 
 function WorkflowRun({ workflowRun }: WorkflowRunProps) {
     return (
-        <div className="contents">
-            <StatusIcon status={(workflowRun.conclusion || workflowRun.status) as Status} />
-            <div>
-                <div className="px-2 flex flex-col">
-                    <Text fw={700}>
-                        {workflowRun.name}
-                    </Text>
+        <Paper withBorder shadow="sm" mb={8} p={4}>
+            <div className="flex">
+                <StatusIcon status={(workflowRun.conclusion || workflowRun.status) as Status} />
+                <div className="grow">
+                    <div className="px-2 flex flex-col">
+                        <Text fw={700}>
+                            {workflowRun.name}
+                        </Text>
+                        <Anchor
+                            href={workflowRun.html_url}
+                            underline="never"
+                            target="_blank"
+                            rel="noreferer noopener"
+                            className="self-start"
+                        >
+                            {workflowRun.display_title}
+                        </Anchor>
+                    </div>
+                </div>
+                <div className="flex flex-col items-end">
                     <Anchor
-                        href={workflowRun.html_url}
+                        href={workflowRun.repository.url}
                         underline="never"
                         target="_blank"
                         rel="noreferer noopener"
+                        className=""
                     >
-                        {workflowRun.display_title}
+                        {workflowRun.repository.owner.login} / {workflowRun.repository.name}
                     </Anchor>
+                    <Text c="dimmed">{workflowRun.run_started_at && format(workflowRun.run_started_at)}</Text>
                 </div>
             </div>
-            <div className="flex flex-col items-end">
-                <Anchor
-                    href={workflowRun.repository.url}
-                    underline="never"
-                    target="_blank"
-                    rel="noreferer noopener"
-                    className=""
-                >
-                    {workflowRun.repository.owner.login} / {workflowRun.repository.name}
-                </Anchor>
-                <Text c="dimmed">{workflowRun.run_started_at && format(workflowRun.run_started_at)}</Text>
-            </div>
-        </div>
+        </Paper>
     )
 }
 
 function StatusIcon({ status }: { status?: Status | null }) {
     if (!status) {
         return (
-            <div className="px-1 h-full flex justify-center items-center">
+            <div className="px-1 h-full flex justify-center items-center self-center">
                 ?
             </div>
         )
     }
     return (
-        <div className="px-1 h-full flex justify-center items-center">
+        <div className="px-1 h-full flex justify-center items-center self-center" title={status}>
             {status === "success" && "✅"}
             {status === "failure" && "❌"}
         </div>

@@ -1,6 +1,7 @@
+[ ] better handling of workflow run statuses (i.e. pending, cancelled, etc.)
 [x] Cleanup page titles, favicons, meta tags, manifest info
 [ ] Cleanup multiselect popover experience
-[ ] 15 minutes cleanup feed layout
+[x] 15 minutes cleanup feed layout
 [X] Reload data every 5 seconds
 	[ ] test that it updates new runs, pending status, success/fail status
 [x] Add some info/tutorial for generating access token
