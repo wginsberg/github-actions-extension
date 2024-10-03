@@ -51,7 +51,7 @@ export default function Auth() {
                 label="Github personal access token"
                 value={personalAccessToken || ""}
                 onChange={e => setPersonalAccessToken(e.target.value)}
-                error={githubUserError && "Bad token"}
+                error={githubUserError && (githubUserError["status"] === 401 ? "Bad token" : "Encountered an unexpected error while validating token")}
                 minLength={1}
             />
             {
