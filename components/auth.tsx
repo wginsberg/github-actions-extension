@@ -23,7 +23,7 @@ export default function Auth() {
             <Title order={2}>Settings</Title>
             <Space h="sm" />
             {
-                !personalAccessToken &&
+                !githubUser &&
                 <>
                     <Alert title="Github token required" icon={(<IconInfoCircle />)} color="yellow">
                         <p>This browser extension requires a personal access token for Github. Don't worry - only minimal read-access to your account is needed.</p>
