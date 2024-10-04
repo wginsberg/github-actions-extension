@@ -14,3 +14,11 @@ Empty.NotLoggedIn = function () {
         </div>
     )
 }
+
+Empty.NoWorkflowRuns = function () {
+    return (
+        <div>
+            <p>No Github Actions workflows have been run for the repositories you selected.</p>
+        </div>
+    )
+}

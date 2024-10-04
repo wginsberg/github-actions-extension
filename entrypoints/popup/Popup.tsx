@@ -26,7 +26,9 @@ export default function Popup() {
             ? <WorkflowRunFeed.Skeleton />
             : githubUser
               ? selectedRepos.length
-                ? <WorkflowRunFeed workflowRunList={githubWorkflowRuns} />
+                ? githubWorkflowRuns.length
+                  ? <WorkflowRunFeed workflowRunList={githubWorkflowRuns} />
+                  : <Empty.NoWorkflowRuns />
                 : <Empty />
               : <Empty.NotLoggedIn />
         }
