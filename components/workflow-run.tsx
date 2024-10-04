@@ -1,6 +1,8 @@
 import { WorkflowRunList } from "@/hooks/useGithubWorkflowRuns";
-import { Anchor, Flex, Paper, Skeleton, StyleProp, Text } from "@mantine/core";
+import { Anchor, Flex, Loader, Paper, Skeleton, StyleProp, Text } from "@mantine/core";
 import { format } from 'timeago.js';
+import { IconHandStop } from '@tabler/icons-react';
+
 
 type ElementType<T> = T extends (infer U)[] ? U : never;
 
@@ -10,6 +12,13 @@ interface WorkflowRunProps {
 
 type Status = "completed"
     | "action_required"
+    | "in_progress"
+    | "queued"
+    | "requested"
+    | "waiting"
+    | "pending"
+
+type Conclusion =
     | "cancelled"
     | "failure"
     | "neutral"
@@ -17,18 +26,17 @@ type Status = "completed"
     | "stale"
     | "success"
     | "timed_out"
-    | "in_progress"
-    | "queued"
-    | "requested"
-    | "waiting"
-    | "pending"
-
-
 function WorkflowRun({ workflowRun }: WorkflowRunProps) {
+    const statusMessage = getFormattedMessage(workflowRun.status as Status, workflowRun.conclusion as Conclusion)
+
     return (
         <Paper withBorder shadow="sm" mb={8} p={4}>
             <div className="flex">
-                <StatusIcon status={(workflowRun.conclusion || workflowRun.status) as Status} />
+                <StatusIcon
+                    status={workflowRun.status as Status}
+                    conclusion={workflowRun.conclusion as Conclusion}
+                    className="w-6"
+                />
                 <div className="grow">
                     <div className="px-2 flex flex-col">
                         <Text fw={700}>
@@ -62,18 +70,43 @@ function WorkflowRun({ workflowRun }: WorkflowRunProps) {
     )
 }
 
-function StatusIcon({ status }: { status?: Status | null }) {
+function getFormattedMessage(status?: Status | null, conclusion?: Conclusion | null) {
+    const lowercaseMessage = (conclusion || status || "")?.replaceAll("_", " ")
+    return `${lowercaseMessage.charAt(0).toUpperCase()}${lowercaseMessage.slice(1)}`
+}
+
+interface StatusIconProps {
+    status?: Status | null
+    conclusion?: Conclusion | null
+    className?: string
+}
+
+function StatusIcon({ status, conclusion, ...props }: StatusIconProps) {
+    const className = ` h-full flex justify-center items-center self-center ${props.className}`
+
+    const title = getFormattedMessage(status, conclusion)
+
     if (!status) {
         return (
-            <div className="px-1 h-full flex justify-center items-center self-center">
+            <div className={className}>
                 ?
             </div>
         )
     }
+
+    const icon = conclusion === "success"
+        ? "✅"
+        : conclusion === "failure"
+            ? "❌"
+            : conclusion === "cancelled"
+                ? <IconHandStop />
+                : (status !== "completed")
+                    ? <Loader size="xs" />
+                    : "❓"
+
     return (
-        <div className="px-1 h-full flex justify-center items-center self-center" title={status}>
-            {status === "success" && "✅"}
-            {status === "failure" && "❌"}
+        <div className={className} title={title}>
+            {icon}
         </div>
     )
 }
