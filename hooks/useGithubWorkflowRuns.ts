@@ -13,7 +13,7 @@ const REFRESH_INTERVAL = 5 * 1000
 export function useGithubWorkflowRuns(selectedRepos: string[]) {
     const { octokit, isOctokitLoading } = useOctkit()
     const [githubWorkflowRuns, setGithubWorkflowRuns] = useState<WorkflowRunList>([])
-    const [isWorkflowRunListLoading, setIsWorkflowRunListLoading] = useState(false)
+    const [isWorkflowRunListLoading, setIsWorkflowRunListLoading] = useState(true)
     const [githubWorkflowError, setGithubWorkflowError] = useState<string>()
     const refreshQuota = useRef(REFRESH_QUOTA)
     const [isPaused, setIsPaused] = useState(false)
@@ -40,7 +40,7 @@ export function useGithubWorkflowRuns(selectedRepos: string[]) {
         setGithubWorkflowError(undefined)
         setIsWorkflowRunListLoading(true)
 
-        if (isOctokitLoading) {
+        if (isOctokitLoading || !octokit) {
             return
         }
 
