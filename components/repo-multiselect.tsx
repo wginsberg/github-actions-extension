@@ -9,6 +9,8 @@ export default function RepoMultiselect() {
     const { githubRepos, isRepoListLoading, githubRepoError } = useGithubRepos()
     const [selectedRepos, setSelectedRepos] = useStorage<string[]>(STORAGE.SELECTED_REPOS, [])
 
+    const includesPrivateRepos = githubRepos.find(repo => repo.private) !== undefined
+
     const handleRepoSelectionChange: MultiSelectProps["onChange"] = useCallback((selections: string[]) => {
         setSelectedRepos(selections)
     }, [])
@@ -26,6 +28,15 @@ export default function RepoMultiselect() {
             : `${repoData.length} repositories`
         : ""
 
+    const nothingFoundMessage = includesPrivateRepos
+        ? "No matching repos found. "
+        : (
+            <>
+                <p>No matching repos found.</p>
+                <p>If you are looking for a private repo make sure that your auth token has the "repo" scope checked.</p>
+            </>
+        )
+
     return (
         <div className="w-full" id="repoSelect">
             <MultiSelect
@@ -38,6 +49,7 @@ export default function RepoMultiselect() {
                 clearable
                 searchable
                 disabled={!githubUser}
+                nothingFoundMessage={nothingFoundMessage}
             />
         </div>
     )
