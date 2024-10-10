@@ -22,7 +22,7 @@ export function useGithubWorkflowRuns(selectedRepos: string[]) {
         if (!octokit) throw new Error("Could not fetch workflow runs")
 
         return Promise
-            .all(
+            .allSettled(
                 selectedRepos.map((selectedRepo) =>  {
                     const [owner, repo] = selectedRepo.split("/")
                     return octokit.actions.listWorkflowRunsForRepo({ owner, repo, headers: { 'If-None-Match': '' } })
@@ -30,7 +30,10 @@ export function useGithubWorkflowRuns(selectedRepos: string[]) {
             )
             .then(results => 
                 results
-                    .map(result => result.data.workflow_runs)
+                    .map(result => {
+                        if (result.status === "rejected") return []
+                        return result.value.data.workflow_runs
+                    })
                     .flat()
             )
     }, [octokit, selectedRepos])
