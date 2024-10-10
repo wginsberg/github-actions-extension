@@ -18,6 +18,11 @@ export default function Auth() {
         setSelectedRepos([])
     }, [githubUser])
 
+    const login = useCallback((token: string) => {
+        setPersonalAccessToken(token)
+        setSelectedRepos([])
+    }, [])
+
     return (
         <div className=''>
             <Title order={2}>Settings</Title>
@@ -50,7 +55,7 @@ export default function Auth() {
             <TextInput
                 label="Github personal access token"
                 value={personalAccessToken || ""}
-                onChange={e => setPersonalAccessToken(e.target.value)}
+                onChange={e => login(e.target.value)}
                 error={githubUserError && (githubUserError["status"] === 401 ? "Bad token" : "Encountered an unexpected error while validating token")}
                 minLength={1}
             />
