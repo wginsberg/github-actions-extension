@@ -1,8 +1,8 @@
 {
   "name": "view-github-actions",
-  "description": "manifest.json description",
+  "description": "View a feed of your Github Actions workflow runs",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "packageManager": "pnpm@8.15.5",
   "scripts": {
